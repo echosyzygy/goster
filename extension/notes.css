@@ -58,19 +58,21 @@ button {
 }
 
 #notepad {
-  width: 100%;
-  height: calc(100vh - 120px);
-  padding: 12px;
-  border: 1px solid black;
-  border-radius: 8px;
-  background-color: #5F069E;
-  font-size: 22px;
-  line-height: 1.5;
-  resize: none;
-  outline: none;
-  box-sizing: border-box;
-  font-family: 'Courier New', monospace;
-}
+	  width: 100%;
+	    min-height: calc(100vh - 120px);
+	      max-height: none; /* Allow unlimited growth */
+	        padding: 12px;
+		  border: 1px solid black;
+		    border-radius: 8px;
+		      background-color: #5F069E;
+		        font-size: 22px;
+			  line-height: 1.5;
+			    resize: none;
+			      outline: none;
+			        box-sizing: border-box;
+				  font-family: 'Courier New', monospace;
+				    overflow: hidden; /* Prevent scrollbar flicker */
+			    }
 
 #notepad:focus {
   border-color: black;

@@ -4,17 +4,23 @@ document.addEventListener('DOMContentLoaded', function() {
   const notepad = document.getElementById('notepad');
   const saveBtn = document.getElementById('saveBtn');
   const clearBtn = document.getElementById('clearBtn');
-
+  
+  // Auto-resize function
+  function autoResize() {
+    notepad.style.height = 'auto';
+    notepad.style.height = notepad.scrollHeight + 'px';
+  }
+  
   // Auto-focus on the notepad
   notepad.focus();
-
+  
   // Handle placeholder text
   notepad.addEventListener('focus', function() {
     if (this.textContent === 'Start typing your notes here...') {
       this.textContent = '';
     }
   });
-
+  
   notepad.addEventListener('blur', function() {
     if (this.textContent.trim() === '') {
       this.textContent = 'Start typing your notes here...';
@@ -22,23 +28,33 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       this.style.color = '#000';
     }
+    autoResize(); // Resize after blur
   });
-
+  
   // Initial placeholder
   if (notepad.textContent.trim() === '') {
     notepad.textContent = 'Start typing your notes here...';
     notepad.style.color = '#999';
   }
-
+  
   // Handle typing
   notepad.addEventListener('input', function() {
     this.style.color = '#000';
+    autoResize(); // Auto-resize on input
   });
-
+  
+  // Handle paste events
+  notepad.addEventListener('paste', function() {
+    setTimeout(autoResize, 0); // Auto-resize after paste
+  });
+  
+  // Initialize auto-resize
+  autoResize();
+  
   // Add event listeners
   saveBtn.addEventListener('click', saveNotes);
   clearBtn.addEventListener('click', clearNotes);
-
+  
   // Keyboard shortcuts
   document.addEventListener('keydown', function(e) {
     // Ctrl+S to save
@@ -47,21 +63,20 @@ document.addEventListener('DOMContentLoaded', function() {
       saveNotes();
     }
   });
-
+  
   // Save function
   function saveNotes() {
     const content = notepad.innerText || notepad.textContent;
-    
     if (!content.trim() || content.trim() === 'Start typing your notes here...') {
       alert('No content to save!');
       return;
     }
-
+    
     // Generate filename with timestamp
     const now = new Date();
     const timestamp = now.toISOString().slice(0, 19).replace(/[:.]/g, '-');
     const filename = `notes-${timestamp}.txt`;
-
+    
     // Use Chrome downloads API
     if (chrome && chrome.runtime) {
       // Send message to background script to handle download
@@ -75,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
           downloadWithBlob(content, filename);
           return;
         }
-        
         if (response && response.success) {
           alert('Notes saved successfully to your Downloads folder!');
         } else {
@@ -88,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
       downloadWithBlob(content, filename);
     }
   }
-
+  
   // Fallback download method using blob
   function downloadWithBlob(content, filename) {
     try {
@@ -98,11 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
       a.href = url;
       a.download = filename;
       a.style.display = 'none';
-      
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      
       URL.revokeObjectURL(url);
       alert('Notes saved successfully!');
     } catch (error) {
@@ -110,13 +122,14 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Failed to save notes. Please try again.');
     }
   }
-
+  
   // Clear function
   function clearNotes() {
     if (confirm('Are you sure you want to clear all notes?')) {
       notepad.textContent = 'Start typing your notes here...';
       notepad.style.color = '#999';
       notepad.focus();
+      autoResize(); // Resize after clearing
     }
   }
 });
