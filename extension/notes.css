@@ -1,0 +1,85 @@
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: black;
+  height: 100vh;
+  box-sizing: border-box;
+  color: green;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid black;
+}
+
+h1 {
+  color: green;
+  margin: 0;
+  font-size: 24px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  padding: 8px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.save-btn {
+  background-color: black;
+  color: green;
+}
+
+.save-btn:hover {
+  background-color: blue;
+  color: white;
+}
+
+.clear-btn {
+  background-color: black;
+  color: green;
+}
+
+.clear-btn:hover {
+  background-color: blue;
+  color: white;
+}
+
+#notepad {
+  width: 100%;
+  height: calc(100vh - 120px);
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: #5F069E;
+  font-size: 22px;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+  font-family: 'Courier New', monospace;
+}
+
+#notepad:focus {
+  border-color: black;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+.footer {
+  margin-top: 10px;
+  text-align: center;
+  color: black;
+  font-size: 12px;
+}

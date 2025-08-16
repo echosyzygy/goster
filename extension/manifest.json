@@ -1,0 +1,32 @@
+// manifest.json
+{
+  "manifest_version": 3,
+  "name": "goster",
+  "version": "1.0",
+  "description": "Take notes in a new tab and save them as text files",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting",
+    "downloads"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Open Notes"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/notes-tab"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["notes.html", "notes.css", "notes.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
