@@ -1,7 +1,10 @@
 # goster
-Chrome browser extension for minimalistic writing 
-# How to Install a Chrome Extension
+Chrome browser extension for minimalistic writing. It is designed to takes notes or writing. Download it and tweak it to the way you like. 
 
+# Issues
+This is just a pet project. There are absolutely no guarantees this will work correctly (or at all) on your system. There are a lot of issues with it so beware it's really kind of a mess!
+
+# How to Install a Chrome Extension
 To install a Chrome extension, follow these steps:
 
 ## 📥 Download the Extension
