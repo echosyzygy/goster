@@ -4,6 +4,8 @@ Chrome browser extension for minimalistic writing. It is designed to takes notes
 # Issues
 This is just a pet project. There are absolutely no guarantees this will work correctly (or at all) on your system. There are a lot of issues with it so beware it's really kind of a mess!
 
+___
+
 # How to Install a Chrome Extension
 To install a Chrome extension, follow these steps:
 
@@ -27,3 +29,13 @@ To install a Chrome extension, follow these steps:
 ---
 
 ✅ The extension will now be loaded and appear in your list of Chrome extensions. You can manage it like any other extension, including pinning it to your toolbar or adjusting its settings.
+
+---
+
+# Auto-Save Features
+
+- Automatic Content Saving: Saves content to localStorage automatically as you type (with a 1-second delay after stopping)
+- Content Restoration: Automatically loads previously saved content when the page is refreshed or reopened
+- Smart Placeholder Handling: Only shows the placeholder text if there's no auto-saved content
+- Auto-Save on Page Exit: Saves content when the user closes or navigates away from the page
+- Clear Integration: The clear button now also removes auto-saved content
