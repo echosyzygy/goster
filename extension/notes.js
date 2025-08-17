@@ -4,15 +4,96 @@ document.addEventListener('DOMContentLoaded', function() {
   const saveBtn = document.getElementById('saveBtn');
   const clearBtn = document.getElementById('clearBtn');
   
+  // Get customization controls (assuming they exist in your HTML)
+  const bgColorPicker = document.getElementById('bgColorPicker');
+  const fontColorPicker = document.getElementById('fontColorPicker');
+  const fontFamilySelect = document.getElementById('fontFamilySelect');
+  
   // Auto-save configuration
   const AUTOSAVE_KEY = 'notepad-autosave-content';
   const AUTOSAVE_DELAY = 1000; // 1 second delay after typing stops
   let autoSaveTimeout;
+  
+  // Customization storage keys
+  const SETTINGS_KEY = 'notepad-settings';
 
   // Auto-resize function
   function autoResize() {
     notepad.style.height = 'auto';
     notepad.style.height = notepad.scrollHeight + 'px';
+  }
+
+  // Customization functions
+  function saveSettings() {
+    const settings = {
+      backgroundColor: notepad.style.backgroundColor || '#5F069E',
+      fontColor: notepad.style.color || '#ffffff',
+      fontFamily: notepad.style.fontFamily || "'Courier New', monospace"
+    };
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  }
+
+  function loadSettings() {
+    const savedSettings = localStorage.getItem(SETTINGS_KEY);
+    if (savedSettings) {
+      const settings = JSON.parse(savedSettings);
+      applySettings(settings);
+      updateControls(settings);
+    } else {
+      // Apply default settings if none are saved
+      const defaultSettings = {
+        backgroundColor: '#5F069E', // Your default purple
+        fontColor: '#ffffff', // White text for better contrast on purple
+        fontFamily: "'Courier New', monospace" // Your default font
+      };
+      applySettings(defaultSettings);
+      updateControls(defaultSettings);
+    }
+  }
+
+  function applySettings(settings) {
+    if (settings.backgroundColor) {
+      notepad.style.backgroundColor = settings.backgroundColor;
+    }
+    if (settings.fontColor) {
+      // Only apply font color when there's actual content (not placeholder)
+      if (notepad.textContent !== 'Start typing your notes here...') {
+        notepad.style.color = settings.fontColor;
+      }
+    }
+    if (settings.fontFamily) {
+      notepad.style.fontFamily = settings.fontFamily;
+    }
+  }
+
+  function updateControls(settings) {
+    if (bgColorPicker && settings.backgroundColor) {
+      bgColorPicker.value = settings.backgroundColor;
+    }
+    if (fontColorPicker && settings.fontColor) {
+      fontColorPicker.value = settings.fontColor;
+    }
+    if (fontFamilySelect && settings.fontFamily) {
+      fontFamilySelect.value = settings.fontFamily;
+    }
+  }
+
+  function handleBackgroundColorChange(color) {
+    notepad.style.backgroundColor = color;
+    saveSettings();
+  }
+
+  function handleFontColorChange(color) {
+    // Only change color if not showing placeholder
+    if (notepad.textContent !== 'Start typing your notes here...') {
+      notepad.style.color = color;
+    }
+    saveSettings();
+  }
+
+  function handleFontFamilyChange(fontFamily) {
+    notepad.style.fontFamily = fontFamily;
+    saveSettings();
   }
 
   // Auto-save function
@@ -50,6 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Load saved content on page load
   const hasAutoSavedContent = loadAutoSavedContent();
   
+  // Load and apply saved settings
+  loadSettings();
+  
   // Auto-focus on the notepad
   notepad.focus();
 
@@ -79,7 +163,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Handle typing with auto-save
   notepad.addEventListener('input', function() {
-    this.style.color = '#000';
+    // Apply saved font color when user starts typing
+    const savedSettings = localStorage.getItem(SETTINGS_KEY);
+    if (savedSettings) {
+      const settings = JSON.parse(savedSettings);
+      this.style.color = settings.fontColor || '#ffffff';
+    } else {
+      this.style.color = '#ffffff'; // White text default
+    }
     autoResize(); // Auto-resize on input
     scheduleAutoSave(); // Schedule auto-save
   });
@@ -98,6 +189,25 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add event listeners
   saveBtn.addEventListener('click', saveNotes);
   clearBtn.addEventListener('click', clearNotes);
+
+  // Add customization event listeners
+  if (bgColorPicker) {
+    bgColorPicker.addEventListener('change', function() {
+      handleBackgroundColorChange(this.value);
+    });
+  }
+
+  if (fontColorPicker) {
+    fontColorPicker.addEventListener('change', function() {
+      handleFontColorChange(this.value);
+    });
+  }
+
+  if (fontFamilySelect) {
+    fontFamilySelect.addEventListener('change', function() {
+      handleFontFamilyChange(this.value);
+    });
+  }
 
   // Keyboard shortcuts
   document.addEventListener('keydown', function(e) {
