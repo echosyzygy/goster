@@ -6,9 +6,41 @@
 </head>
 <body>
   <div class="header">
+    <h1>goster</h1>
     <div class="toolbar">
       <button class="save-btn" id="saveBtn">Save</button>
       <button class="clear-btn" id="clearBtn">Clear</button>
+    </div>
+  </div>
+
+  <!-- Customization controls -->
+  <div class="customization-panel">
+    
+    <div class="control-group">
+      <label for="bgColorPicker">Background Color:</label>
+      <input type="color" id="bgColorPicker" value="#5F069E">
+    </div>
+    
+    <div class="control-group">
+      <label for="fontColorPicker">Font Color:</label>
+      <input type="color" id="fontColorPicker" value="#ffffff">
+    </div>
+    
+    <div class="control-group">
+      <label for="fontFamilySelect">Font Family:</label>
+      <select id="fontFamilySelect">
+        <option value="'Courier New', monospace" selected>Courier New</option>
+        <option value="Arial, sans-serif">Arial</option>
+        <option value="'Times New Roman', serif">Times New Roman</option>
+        <option value="Helvetica, sans-serif">Helvetica</option>
+        <option value="Georgia, serif">Georgia</option>
+        <option value="Verdana, sans-serif">Verdana</option>
+        <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+        <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+        <option value="'Lucida Console', monospace">Lucida Console</option>
+        <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI</option>
+        <option value="Impact, sans-serif">Impact</option>
+      </select>
     </div>
   </div>
   
@@ -17,6 +49,7 @@
   
   <div class="footer">
   </div>
-
+  
   <script src="notes.js"></script>
 </body>
+</html>
